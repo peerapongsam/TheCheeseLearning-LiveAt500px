@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import me.peerapong.liveat500px.R;
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
+    public Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initInstances() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(MainActivity.this,
@@ -43,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
     }
 
 
