@@ -4,8 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import me.peerapong.liveat500px.view.PhotoListItem;
-
 /**
  * Created by peerapong on 1/15/17.
  */
@@ -14,7 +12,7 @@ public class PhotoItemCollectionDao {
     @SerializedName("success")
     private boolean success;
     @SerializedName("data")
-    private List<PhotoListItem> data;
+    private List<PhotoItemDao> data;
 
     public boolean isSuccess() {
         return success;
@@ -24,11 +22,11 @@ public class PhotoItemCollectionDao {
         this.success = success;
     }
 
-    public List<PhotoListItem> getData() {
+    public List<PhotoItemDao> getData() {
         return data;
     }
 
-    public void setData(List<PhotoListItem> data) {
+    public void setData(List<PhotoItemDao> data) {
         this.data = data;
     }
 }
