@@ -4,7 +4,10 @@ import android.content.Context;
 
 import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
+import java.util.ArrayList;
+
 import me.peerapong.liveat500px.dao.PhotoItemCollectionDao;
+import me.peerapong.liveat500px.dao.PhotoItemDao;
 
 /**
  * Created by nuuneoi on 11/16/2014.
@@ -24,6 +27,14 @@ public class PhotoListManager {
 
     public void setDao(PhotoItemCollectionDao dao) {
         this.dao = dao;
+    }
+
+    public void insertDaoAtTopPosition(PhotoItemCollectionDao newDao) {
+        if (this.dao == null)
+            this.dao = new PhotoItemCollectionDao();
+        if (this.dao.getData() == null)
+            this.dao.setData(new ArrayList<PhotoItemDao>());
+        this.dao.getData().addAll(0, newDao.getData());
     }
 
     public int getMaximumId() {
