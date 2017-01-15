@@ -1,4 +1,4 @@
-package me.peerapong.liveat500px.manager.http;
+package me.peerapong.liveat500px.manager;
 
 import android.content.Context;
 
@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
+import me.peerapong.liveat500px.manager.http.ApiService;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
