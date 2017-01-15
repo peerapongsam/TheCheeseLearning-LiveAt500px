@@ -1,5 +1,6 @@
 package me.peerapong.liveat500px.manager.http;
 
+import me.peerapong.liveat500px.dao.PhotoItemCollectionDao;
 import retrofit2.Call;
 import retrofit2.http.POST;
 
@@ -10,5 +11,5 @@ import retrofit2.http.POST;
 public interface ApiService {
 
     @POST("list")
-    Call<Object> loadPhotoList();
+    Call<PhotoItemCollectionDao> loadPhotoList();
 }
