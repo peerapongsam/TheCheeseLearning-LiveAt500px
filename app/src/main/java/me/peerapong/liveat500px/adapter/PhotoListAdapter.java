@@ -4,6 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import me.peerapong.liveat500px.dao.PhotoItemDao;
 import me.peerapong.liveat500px.manager.PhotoListManager;
 import me.peerapong.liveat500px.view.PhotoListItem;
 
@@ -22,7 +23,7 @@ public class PhotoListAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return PhotoListManager.getInstance().getDao().getData().get(position);
     }
 
     @Override
@@ -38,6 +39,11 @@ public class PhotoListAdapter extends BaseAdapter {
         } else {
             item = new PhotoListItem(parent.getContext());
         }
+
+        PhotoItemDao dao = (PhotoItemDao) getItem(position);
+        item.setNameText(dao.getCaption());
+        item.setDescriptionText(dao.getUsername() + "\n" + dao.getCamera());
+        item.setImageUrl(dao.getImageUrl());
         return item;
     }
 }

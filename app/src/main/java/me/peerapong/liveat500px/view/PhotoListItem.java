@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.inthecheesefactory.thecheeselibrary.view.BaseCustomViewGroup;
 import com.inthecheesefactory.thecheeselibrary.view.state.BundleSavedState;
@@ -15,6 +17,10 @@ import me.peerapong.liveat500px.R;
  * Created by nuuneoi on 11/16/2014.
  */
 public class PhotoListItem extends BaseCustomViewGroup {
+
+    private ImageView ivImg;
+    private TextView tvName;
+    private TextView tvDescription;
 
     public PhotoListItem(Context context) {
         super(context);
@@ -50,6 +56,9 @@ public class PhotoListItem extends BaseCustomViewGroup {
 
     private void initInstances() {
         // findViewById here
+        ivImg = (ImageView) findViewById(R.id.ivImg);
+        tvName = (TextView) findViewById(R.id.tvName);
+        tvDescription = (TextView) findViewById(R.id.tvDescription);
     }
 
     private void initWithAttrs(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -102,5 +111,17 @@ public class PhotoListItem extends BaseCustomViewGroup {
         // Child View
         super.onMeasure(widthMeasureSpec, newHeightMeasureSpec);
         setMeasuredDimension(width, height);
+    }
+
+    public void setNameText(String text) {
+        tvName.setText(text);
+    }
+
+    public void setDescriptionText(String text) {
+        tvDescription.setText(text);
+    }
+
+    public void setImageUrl(String url) {
+        // TODO: Load Image
     }
 }
