@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
+import android.widget.ProgressBar;
 
 import me.peerapong.liveat500px.R;
 import me.peerapong.liveat500px.dao.PhotoItemCollectionDao;
@@ -26,9 +27,9 @@ public class PhotoListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (dao == null) return 0;
-        if (dao.getData() == null) return 0;
-        return dao.getData().size();
+        if (dao == null) return 1;
+        if (dao.getData() == null) return 1;
+        return dao.getData().size() + 1;
     }
 
     @Override
@@ -42,26 +43,47 @@ public class PhotoListAdapter extends BaseAdapter {
     }
 
     @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position == getCount() - 1 ? 1 : 0;
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        PhotoListItem item;
-        if (convertView != null) {
-            item = (PhotoListItem) convertView;
+        if (position == getCount() - 1) {
+            // ProgressBar
+            ProgressBar item;
+            if (convertView != null) {
+                item = (ProgressBar) convertView;
+            } else {
+                item = new ProgressBar(parent.getContext());
+            }
+            return item;
         } else {
-            item = new PhotoListItem(parent.getContext());
-        }
+            PhotoListItem item;
+            if (convertView != null) {
+                item = (PhotoListItem) convertView;
+            } else {
+                item = new PhotoListItem(parent.getContext());
+            }
 
-        PhotoItemDao dao = (PhotoItemDao) getItem(position);
-        item.setNameText(dao.getCaption());
-        item.setDescriptionText(dao.getUsername() + "\n" + dao.getCamera());
-        item.setImageUrl(dao.getImageUrl());
+            PhotoItemDao dao = (PhotoItemDao) getItem(position);
+            item.setNameText(dao.getCaption());
+            item.setDescriptionText(dao.getUsername() + "\n" + dao.getCamera());
+            item.setImageUrl(dao.getImageUrl());
 
-        if (position > lastPosition) {
-            Animation anim = AnimationUtils.loadAnimation(parent.getContext(),
-                    R.anim.up_from_bottom);
-            item.startAnimation(anim);
-            lastPosition = position;
+            if (position > lastPosition) {
+                Animation anim = AnimationUtils.loadAnimation(parent.getContext(),
+                        R.anim.up_from_bottom);
+                item.startAnimation(anim);
+                lastPosition = position;
+            }
+            return item;
         }
-        return item;
     }
 
     public void increaseLastPosition(int amount) {
