@@ -126,6 +126,7 @@ public class PhotoListItem extends BaseCustomViewGroup {
     public void setImageUrl(String url) {
         Glide.with(getContext())
                 .load(url)
+                .placeholder(R.drawable.loading)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(ivImg);
     }
