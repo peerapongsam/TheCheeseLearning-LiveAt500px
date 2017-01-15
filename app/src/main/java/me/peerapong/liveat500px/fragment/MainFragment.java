@@ -16,7 +16,6 @@ import me.peerapong.liveat500px.R;
 import me.peerapong.liveat500px.adapter.PhotoListAdapter;
 import me.peerapong.liveat500px.dao.PhotoItemCollectionDao;
 import me.peerapong.liveat500px.manager.HttpManager;
-import me.peerapong.liveat500px.manager.PhotoListManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -62,7 +61,7 @@ public class MainFragment extends Fragment {
                                    Response<PhotoItemCollectionDao> response) {
                 if (response.isSuccessful()) {
                     PhotoItemCollectionDao dao = response.body();
-                    PhotoListManager.getInstance().setDao(dao);
+                    listAdapter.setDao(dao);
                     listAdapter.notifyDataSetChanged();
                     Toast.makeText(Contextor.getInstance().getContext(),
                             dao.getData().get(0).getCaption(),

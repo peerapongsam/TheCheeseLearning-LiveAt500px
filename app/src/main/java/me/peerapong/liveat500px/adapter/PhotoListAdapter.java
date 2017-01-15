@@ -4,8 +4,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import me.peerapong.liveat500px.dao.PhotoItemCollectionDao;
 import me.peerapong.liveat500px.dao.PhotoItemDao;
-import me.peerapong.liveat500px.manager.PhotoListManager;
 import me.peerapong.liveat500px.view.PhotoListItem;
 
 /**
@@ -14,16 +14,22 @@ import me.peerapong.liveat500px.view.PhotoListItem;
 
 public class PhotoListAdapter extends BaseAdapter {
 
+    PhotoItemCollectionDao dao;
+
+    public void setDao(PhotoItemCollectionDao dao) {
+        this.dao = dao;
+    }
+
     @Override
     public int getCount() {
-        if (PhotoListManager.getInstance().getDao() == null) return 0;
-        if (PhotoListManager.getInstance().getDao().getData() == null) return 0;
-        return PhotoListManager.getInstance().getDao().getData().size();
+        if (dao == null) return 0;
+        if (dao.getData() == null) return 0;
+        return dao.getData().size();
     }
 
     @Override
     public Object getItem(int position) {
-        return PhotoListManager.getInstance().getDao().getData().get(position);
+        return dao.getData().get(position);
     }
 
     @Override
