@@ -40,9 +40,4 @@ public class MoreInfoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_more_info, menu);
-        return true;
-    }
 }
