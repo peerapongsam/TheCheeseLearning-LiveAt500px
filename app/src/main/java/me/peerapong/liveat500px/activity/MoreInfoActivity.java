@@ -2,6 +2,7 @@ package me.peerapong.liveat500px.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import me.peerapong.liveat500px.R;
@@ -37,5 +38,11 @@ public class MoreInfoActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_more_info, menu);
+        return true;
     }
 }

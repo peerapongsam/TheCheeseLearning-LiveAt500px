@@ -6,6 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import me.peerapong.liveat500px.R;
 import me.peerapong.liveat500px.dao.PhotoItemDao;
@@ -17,6 +22,10 @@ import me.peerapong.liveat500px.dao.PhotoItemDao;
 @SuppressWarnings("unused")
 public class PhotoSummaryFragment extends Fragment {
     PhotoItemDao dao;
+
+    ImageView ivImg;
+    TextView tvName;
+    TextView tvDescription;
 
     public PhotoSummaryFragment() {
         super();
@@ -56,6 +65,17 @@ public class PhotoSummaryFragment extends Fragment {
     @SuppressWarnings("UnusedParameters")
     private void initInstances(View rootView, Bundle savedInstanceState) {
         // Init 'View' instance(s) with rootView.findViewById here
+        ivImg = (ImageView) rootView.findViewById(R.id.ivImg);
+        tvName = (TextView) rootView.findViewById(R.id.tvName);
+        tvDescription = (TextView) rootView.findViewById(R.id.tvDescription);
+
+        tvName.setText(dao.getCaption());
+        tvDescription.setText(dao.getCamera());
+        Glide.with(PhotoSummaryFragment.this)
+                .load(dao.getImageUrl())
+                .placeholder(R.drawable.loading)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(ivImg);
     }
 
     @Override
