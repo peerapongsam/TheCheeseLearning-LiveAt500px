@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import me.peerapong.liveat500px.R;
 import me.peerapong.liveat500px.adapter.PhotoListAdapter;
 import me.peerapong.liveat500px.dao.PhotoItemCollectionDao;
+import me.peerapong.liveat500px.dao.PhotoItemDao;
 import me.peerapong.liveat500px.datatype.MutableInteger;
 import me.peerapong.liveat500px.manager.HttpManager;
 import me.peerapong.liveat500px.manager.PhotoListManager;
@@ -33,6 +35,31 @@ import retrofit2.Response;
  * Created by nuuneoi on 11/16/2014.
  */
 public class MainFragment extends Fragment {
+
+    AbsListView.OnScrollListener listViewScrollListener = new AbsListView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view,
+                                         int scrollState) {
+
+        }
+
+        @Override
+        public void onScroll(AbsListView view,
+                             int firstVisibleItem,
+                             int visibleItemCount,
+                             int totalItemCount) {
+            if (view == listView) {
+                swipeRefreshLayout.setEnabled(firstVisibleItem == 0);
+
+                if (firstVisibleItem + visibleItemCount >= totalItemCount) {
+                    if (photoListManager.getCount() > 0) {
+                        // Load More
+                        reloadMoreData();
+                    }
+                }
+            }
+        }
+    };
 
     PhotoListAdapter listAdapter;
     ListView listView;
@@ -79,25 +106,16 @@ public class MainFragment extends Fragment {
         lastPositionInteger = new MutableInteger(-1);
     }
 
-    private void initInstances(View rootView, Bundle savedInstanceState) {
-        // Init 'View' instance(s) with rootView.findViewById here
-        btnNewPhoto = (Button) rootView.findViewById(R.id.btnNewPhoto);
-        btnNewPhoto.setOnClickListener(buttonClickListener);
-
-        listView = (ListView) rootView.findViewById(R.id.listView);
-        listAdapter = new PhotoListAdapter(lastPositionInteger);
-        listAdapter.setDao(photoListManager.getDao());
-        listView.setAdapter(listAdapter);
-
-
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(pullToRefreshListener);
-        listView.setOnScrollListener(listViewScrollListener);
-
-        if (savedInstanceState == null) {
-            refreshData();
+    AdapterView.OnItemClickListener listViewItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (position < photoListManager.getCount()) {
+                PhotoItemDao dao = photoListManager.getDao().getData().get(position);
+                FragmentListener listener = (FragmentListener) getActivity();
+                listener.onPhotoItemClicked(dao);
+            }
         }
-    }
+    };
 
     private void refreshData() {
         if (photoListManager.getCount() == 0) {
@@ -216,30 +234,32 @@ public class MainFragment extends Fragment {
             refreshData();
         }
     };
-    AbsListView.OnScrollListener listViewScrollListener = new AbsListView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(AbsListView view,
-                                         int scrollState) {
 
+    private void initInstances(View rootView, Bundle savedInstanceState) {
+        // Init 'View' instance(s) with rootView.findViewById here
+        btnNewPhoto = (Button) rootView.findViewById(R.id.btnNewPhoto);
+        btnNewPhoto.setOnClickListener(buttonClickListener);
+
+        listView = (ListView) rootView.findViewById(R.id.listView);
+        listAdapter = new PhotoListAdapter(lastPositionInteger);
+        listAdapter.setDao(photoListManager.getDao());
+        listView.setAdapter(listAdapter);
+
+
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(pullToRefreshListener);
+        listView.setOnScrollListener(listViewScrollListener);
+
+        listView.setOnItemClickListener(listViewItemClickListener);
+
+        if (savedInstanceState == null) {
+            refreshData();
         }
+    }
 
-        @Override
-        public void onScroll(AbsListView view,
-                             int firstVisibleItem,
-                             int visibleItemCount,
-                             int totalItemCount) {
-            if (view == listView) {
-                swipeRefreshLayout.setEnabled(firstVisibleItem == 0);
-
-                if (firstVisibleItem + visibleItemCount >= totalItemCount) {
-                    if (photoListManager.getCount() > 0) {
-                        // Load More
-                        reloadMoreData();
-                    }
-                }
-            }
-        }
-    };
+    public interface FragmentListener {
+        void onPhotoItemClicked(PhotoItemDao dao);
+    }
 
     /****************
      * Inner Classes

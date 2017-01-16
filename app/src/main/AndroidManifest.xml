@@ -22,6 +22,10 @@
         <meta-data
             android:name="me.peerapong.liveat500px.configuration.GlideConfiguration"
             android:value="GlideModule" />
+
+        <activity
+            android:name=".activity.MoreInfoActivity"
+            android:theme="@style/AppThemeWithActionBar" />
     </application>
 
 </manifest>
