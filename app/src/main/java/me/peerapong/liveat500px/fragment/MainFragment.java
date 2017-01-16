@@ -1,6 +1,7 @@
 package me.peerapong.liveat500px.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -32,8 +33,8 @@ import retrofit2.Response;
  */
 public class MainFragment extends Fragment {
 
-    ListView listView;
     PhotoListAdapter listAdapter;
+    ListView listView;
     SwipeRefreshLayout swipeRefreshLayout;
     PhotoListManager photoListManager;
     Button btnNewPhoto;
@@ -52,6 +53,18 @@ public class MainFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Initialize Fragment Variables
+        photoListManager = new PhotoListManager();
+
+        if (savedInstanceState != null) {
+            onRestoreInstanceState(savedInstanceState);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -61,8 +74,6 @@ public class MainFragment extends Fragment {
 
     private void initInstances(View rootView) {
         // Init 'View' instance(s) with rootView.findViewById here
-        photoListManager = new PhotoListManager();
-
         btnNewPhoto = (Button) rootView.findViewById(R.id.btnNewPhoto);
         btnNewPhoto.setOnClickListener(buttonClickListener);
 
@@ -110,6 +121,12 @@ public class MainFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         // Save Instance State here
+        // TODO: Save PhotoListManager to outState
+    }
+
+    private void onRestoreInstanceState(Bundle savedInstanceState) {
+        // Restore Instance State here
+
     }
 
     /*
@@ -118,9 +135,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            // Restore Instance State here
-        }
     }
 
     private void reloadMoreData() {
