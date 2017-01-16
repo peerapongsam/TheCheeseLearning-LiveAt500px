@@ -18,9 +18,9 @@ import me.peerapong.liveat500px.fragment.MoreInfoFragment;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.FragmentListener {
 
+    public Toolbar toolbar;
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
-    public Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
