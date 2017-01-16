@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,9 @@ import android.widget.Toast;
 
 import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import me.peerapong.liveat500px.R;
@@ -77,6 +81,22 @@ public class MainFragment extends Fragment {
     private void init(Bundle savedInstanceState) {
         photoListManager = new PhotoListManager();
         lastPositionInteger = new MutableInteger(-1);
+
+//        File dir = getContext().getFilesDir();
+//        File dir = getContext().getDir("Hello", Context.MODE_PRIVATE);
+        File dir = getContext().getCacheDir();
+        Log.d("Storage", String.valueOf(dir));
+
+        File file = new File(dir, "testfile.text");
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write("hello".getBytes());
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initInstances(View rootView, Bundle savedInstanceState) {
