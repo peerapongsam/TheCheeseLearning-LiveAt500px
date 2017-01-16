@@ -1,7 +1,5 @@
 package me.peerapong.liveat500px.fragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -79,11 +77,6 @@ public class MainFragment extends Fragment {
     private void init(Bundle savedInstanceState) {
         photoListManager = new PhotoListManager();
         lastPositionInteger = new MutableInteger(-1);
-
-        SharedPreferences prefs = getContext().getSharedPreferences("dummy", Context.MODE_PRIVATE);
-
-        String value = prefs.getString("Hello", null);
-        showToast(value);
     }
 
     private void initInstances(View rootView, Bundle savedInstanceState) {
