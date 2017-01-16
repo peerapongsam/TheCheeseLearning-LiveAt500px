@@ -3,12 +3,11 @@ package me.peerapong.liveat500px.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import me.peerapong.liveat500px.R;
 
@@ -58,28 +57,24 @@ public class MoreInfoFragment extends Fragment {
     private void initInstances(View rootView, Bundle savedInstanceState) {
         // Init 'View' instance(s) with rootView.findViewById here
         viewPager = (ViewPager) rootView.findViewById(R.id.viewPager);
-        viewPager.setAdapter(new PagerAdapter() {
+        viewPager.setAdapter(new FragmentStatePagerAdapter(getChildFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                switch (position) {
+                    case 0:
+                        return PhotoSummaryFragment.newInstance();
+                    case 1:
+                        return PhotoInfoFragment.newInstance();
+                    case 2:
+                        return PhotoTagsFragment.newInstance();
+                    default:
+                        return null;
+                }
+            }
+
             @Override
             public int getCount() {
                 return 3;
-            }
-
-            @Override
-            public boolean isViewFromObject(View view, Object object) {
-                return view == object;
-            }
-
-            @Override
-            public Object instantiateItem(ViewGroup container, int position) {
-                Button btn = new Button(container.getContext());
-                btn.setText("Position: " + position);
-                container.addView(btn);
-                return btn;
-            }
-
-            @Override
-            public void destroyItem(ViewGroup container, int position, Object object) {
-                container.removeView((View) object);
             }
         });
     }
