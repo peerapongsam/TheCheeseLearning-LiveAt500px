@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import me.peerapong.liveat500px.R;
+import me.peerapong.liveat500px.dao.PhotoItemDao;
 
 
 /**
@@ -16,14 +17,17 @@ import me.peerapong.liveat500px.R;
 @SuppressWarnings("unused")
 public class PhotoInfoFragment extends Fragment {
 
+    PhotoItemDao dao;
+
     public PhotoInfoFragment() {
         super();
     }
 
     @SuppressWarnings("unused")
-    public static PhotoInfoFragment newInstance() {
+    public static PhotoInfoFragment newInstance(PhotoItemDao dao) {
         PhotoInfoFragment fragment = new PhotoInfoFragment();
         Bundle args = new Bundle();
+        args.putParcelable("dao", dao);
         fragment.setArguments(args);
         return fragment;
     }
@@ -47,6 +51,7 @@ public class PhotoInfoFragment extends Fragment {
 
     private void init(Bundle savedInstanceState) {
         // Init Fragment level's variable(s) here
+        dao = getArguments().getParcelable("dao");
     }
 
     @SuppressWarnings("UnusedParameters")

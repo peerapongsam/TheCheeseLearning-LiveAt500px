@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.inthecheesefactory.thecheeselibrary.view.SlidingTabLayout;
 
 import me.peerapong.liveat500px.R;
+import me.peerapong.liveat500px.dao.PhotoItemDao;
 
 
 /**
@@ -23,14 +24,17 @@ public class MoreInfoFragment extends Fragment {
     ViewPager viewPager;
     SlidingTabLayout slidingTabLayout;
 
+    PhotoItemDao dao;
+
     public MoreInfoFragment() {
         super();
     }
 
     @SuppressWarnings("unused")
-    public static MoreInfoFragment newInstance() {
+    public static MoreInfoFragment newInstance(PhotoItemDao dao) {
         MoreInfoFragment fragment = new MoreInfoFragment();
         Bundle args = new Bundle();
+        args.putParcelable("dao", dao);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,6 +58,7 @@ public class MoreInfoFragment extends Fragment {
 
     private void init(Bundle savedInstanceState) {
         // Init Fragment level's variable(s) here
+        dao = getArguments().getParcelable("dao");
     }
 
     @SuppressWarnings("UnusedParameters")
@@ -65,11 +70,11 @@ public class MoreInfoFragment extends Fragment {
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        return PhotoSummaryFragment.newInstance();
+                        return PhotoSummaryFragment.newInstance(dao);
                     case 1:
-                        return PhotoInfoFragment.newInstance();
+                        return PhotoInfoFragment.newInstance(dao);
                     case 2:
-                        return PhotoTagsFragment.newInstance();
+                        return PhotoTagsFragment.newInstance(dao);
                     default:
                         return null;
                 }

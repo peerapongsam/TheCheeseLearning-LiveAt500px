@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import me.peerapong.liveat500px.R;
+import me.peerapong.liveat500px.dao.PhotoItemDao;
 import me.peerapong.liveat500px.fragment.MoreInfoFragment;
 
 public class MoreInfoActivity extends AppCompatActivity {
@@ -15,9 +16,11 @@ public class MoreInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_more_info);
         initInstances();
 
+        PhotoItemDao dao = getIntent().getParcelableExtra("dao");
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.contentContainer, MoreInfoFragment.newInstance(), "MoreInfoFragment")
+                    .add(R.id.contentContainer, MoreInfoFragment.newInstance(dao), "MoreInfoFragment")
                     .commit();
         }
     }
